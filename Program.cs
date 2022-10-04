@@ -1,5 +1,4 @@
 ﻿// ФУНКЦИИ
-
 int InputChecker(string userMessage, string exeptionMessage) // Функция для защиты от ввода НЕ-чисел
 {
     Console.Write(userMessage);
@@ -31,7 +30,7 @@ string EndingChanger(int num, string one, string two, string many) // Функц
                                                                    // слов могут быть разные, поэтому посылаем их в функцию
 {
     int n = num % 100;
-    string ending = string.Empty; // это будем посылать в функцию для установки окончания
+    string ending = string.Empty; // это наше окончание, его будем возвращать
 
     if (n / 10 == 1) ending = many;                        // предпоследний разряд - 1
     else  // в этом ветвлении проверяем последний разряд
@@ -47,19 +46,17 @@ string[] StringArrayInput() // поскольку в задаче предлаг
                             // но изначально не известно количество вводимых пользователем строк,
                             // сделаем свою реализаци динамического массива.
                             // Единственное ограничение - пустая строка в таком виде не сможет
-                             // быть элементом массива
+                            // быть элементом массива
 {
-
     int currentPositionIndex = 0, // номер позиции (или иначе, количество уже введёных элементов) надо отслеживать 
         currentArrayNumber = 0,   // это номер массива в нашем блоке массивов
         currentMaxIndex = 4,      // это максимальный размер текущего массива, начнём с 4 элементов, степень двойки
         arraySizeMultiplier = 2;  // каждый следующий массив будем удваивать
 
-    string [][] megaArray = new string [30][]; // примерно 2 млрд чисел, думаю, хватит. Однако не знаю, как сделать потенциально бесконечный ввод,
+    string [][] megaArray = new string [30][]; // примерно 2 млрд чисел, думаю, хватит. Однако не знаю, можно ли сделать потенциально бесконечный ввод
     megaArray [0] = new string [currentMaxIndex]; 
 
-    string nextInput = string.Empty, // // убрать эксепшн
-           exeptionMessage = "Что-то пошло не так... Попробуте снова или введите пустую строку для завершения ввода (ctrl+c для экстренного прерывания)";
+    string nextInput = string.Empty;
     
     while (true) 
     { 
@@ -71,27 +68,20 @@ string[] StringArrayInput() // поскольку в задаче предлаг
         if (nextInput == "") break; // выходим из цикла While
         else
         {          
-            try  // // убрать трай кэтч
-            {                
-                if (currentMaxIndex == currentPositionIndex + 1) // как только текущий массив заполняется
-                                                                 // мы перекидываем все значения из него в следующий
-                                                                 // в два раза больший массив и продолжаем работу
-                {
-                    megaArray [currentArrayNumber + 1] = new string [currentMaxIndex * arraySizeMultiplier];
-
-                    for (int i = 0; i < megaArray[currentArrayNumber].Length; i++)
-                        megaArray[currentArrayNumber + 1][i] = megaArray[currentArrayNumber][i];
-
-                    currentMaxIndex *= arraySizeMultiplier; //следующий массив в два раз больше
-                    currentArrayNumber++;
-                }
-                megaArray [currentArrayNumber] [currentPositionIndex] = nextInput;
-                currentPositionIndex++;
-            }
-            catch
+            if (currentMaxIndex == currentPositionIndex + 1) // как только текущий массив заполняется
+                                                             // мы перекидываем все значения из него в следующий
+                                                             // в два раза больший массив и продолжаем работу
             {
-                Console.WriteLine(exeptionMessage);
+                megaArray [currentArrayNumber + 1] = new string [currentMaxIndex * arraySizeMultiplier];
+
+                for (int i = 0; i < megaArray[currentArrayNumber].Length; i++)
+                    megaArray[currentArrayNumber + 1][i] = megaArray[currentArrayNumber][i];
+
+                currentMaxIndex *= arraySizeMultiplier; //следующий массив в два раз больше
+                currentArrayNumber++;
             }
+            megaArray [currentArrayNumber] [currentPositionIndex] = nextInput;
+            currentPositionIndex++;
         }                       
     } 
 
