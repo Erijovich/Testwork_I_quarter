@@ -19,7 +19,7 @@ int InputNaturalChecker (string userMessage, string exeptionMessage) // Функ
     while (true)
     {
         naturalNumber = InputChecker(userMessage, exeptionMessage);
-        if (naturalNumber < 0) Console.WriteLine(exeptionMessage);
+        if (naturalNumber <= 0) Console.WriteLine(exeptionMessage);
         else break;
     }
     return naturalNumber;
